@@ -1,0 +1,7 @@
+# Ignore auto-generated Rstudio & system files
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+.DS_Store
