@@ -1,0 +1,1 @@
+Folder for COG results and plots.

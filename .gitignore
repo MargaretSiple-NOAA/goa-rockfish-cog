@@ -5,3 +5,7 @@
 .Ruserdata
 *.Rproj
 .DS_Store
+
+# Ignore data and plots
+*.csv
+*.png

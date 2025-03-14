@@ -18,16 +18,21 @@ library(viridis)
 library(here)
 
 # Set ggplot theme
-devtools::install_github("seananderson/ggsidekick")
+if (!requireNamespace("ggsidekick", quietly = TRUE)) {
+  devtools::install_github("seananderson/ggsidekick")
+}
 library(ggsidekick)
 theme_set(theme_sleek())
 
 # Data import & cleaning ------------------------------------------------------
 # Either read in existing COG file, or calculate empirical cog using R script.
+# Set most recent GOA survey year
+yr_goa <- 2023
+
 if (file.exists(here("output", paste0("rf_cogs_", yr_goa, ".csv")))) {
   cogs <- read.csv(here("output", paste0("rf_cogs_", yr_goa, ".csv")))
 } else {
-  # TODO: make sure you're including the most-recent GOA survey year's data!
+  # TODO: make sure you've updated cog.R to pull the most-recent GOA survey data!
   source(here("R", "cog.R"))
 }
 
@@ -120,8 +125,8 @@ sf::sf_use_s2(FALSE)  # turn off spherical geometry
 map <- ggplot(data = world) +
   geom_sf() +
   geom_point(data = cog_sparkle, aes(x = est_lon, y = est_lat, color = year), size = 1.5) +
-  geom_errorbar(data = cog_sparkle, aes(x = est_lon, y = est_lat, ymin = lwr_lat, ymax = upr_lat, color = year), alpha = 0.4) +
-  geom_errorbarh(data = cog_sparkle, aes(x = est_lon, y = est_lat, xmin = lwr_lon, xmax = upr_lon, color = year), alpha = 0.4) +
+  geom_errorbar(data = cog_sparkle, aes(x = est_lon, ymin = lwr_lat, ymax = upr_lat, color = year), alpha = 0.4) +
+  geom_errorbarh(data = cog_sparkle, aes(y = est_lat, xmin = lwr_lon, xmax = upr_lon, color = year), alpha = 0.4) +
   coord_sf(xlim = c(-162.5, -140), ylim = c(54, 60), expand = FALSE) +
   scale_color_viridis(option = "plasma", discrete = FALSE, end = 0.9) +
   scale_x_continuous(breaks = c(-160, -145)) +
@@ -131,9 +136,9 @@ map <- ggplot(data = world) +
 map
 
 # Save plots ------------------------------------------------------------------
-ggsave(ts_plot, filename = here::here("output", "rf_cog_ts.png"), 
+ggsave(ts_plot, filename = here("output", "rf_cog_ts.png"), 
        width = 200, height = 110, unit = "mm", dpi = 300)
-ggsave(sparkle, filename = here::here("output", "rf_cog_sparkle.png"), 
+ggsave(sparkle, filename = here("output", "rf_cog_sparkle.png"), 
        width = 180, height = 150, unit = "mm", dpi = 300)
-ggsave(map, filename = here::here("output", "rf_cog_map.png"), 
+ggsave(map, filename = here("output", "rf_cog_map.png"), 
        width = 180, height = 140, unit = "mm", dpi = 300)
