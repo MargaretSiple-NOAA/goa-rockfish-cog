@@ -1,9 +1,18 @@
 ## Calculate Empirical Center of Gravity From Observed Data
 ## Zack Oyafuso
 
-## Connect to Oracle
+# Install required packages
+if (!requireNamespace("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
+
+if (!requireNamespace("gapindex", quietly = TRUE)) {
+  devtools::install_github("afsc-gap-products/gapindex")
+}
+
 library(gapindex)
 
+## Connect to Oracle
 if (file.exists("Z:/Projects/ConnectToOracle.R")) {
   source("Z:/Projects/ConnectToOracle.R")
 } else {
