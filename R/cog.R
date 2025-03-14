@@ -11,7 +11,8 @@ if (file.exists("Z:/Projects/ConnectToOracle.R")) {
   channel <- gapindex::get_connected(check_access = FALSE)
 }
 
-## Set most recent survey year
+## TODO: Set latest GOA survey year
+yr_goa <- 2023
 
 ## Define species and species groupings
 rf_groups <- data.frame(
@@ -22,7 +23,7 @@ rf_groups <- data.frame(
 ## Pull data
 gp_data <- 
   gapindex::get_data(year_set = c(seq(from = 1990, to = 1999, by = 3),
-                                  seq(from = 2003, to = 2023, by = 2)),
+                                  seq(from = 2003, to = yr_goa, by = 2)),
                      survey_set = "GOA",
                      spp_codes = rf_groups,
                      channel = channel
@@ -84,4 +85,4 @@ for (imetric in c("DEPTH_M", "BOTTOM_TEMPERATURE_C",
     ) 
 }
 
-write.csv(cogs, here::here("output", "rf_cogs.csv"), row.names = FALSE)
+write.csv(cogs, here::here("output", paste0("rf_cogs_", yr_goa, ".csv")), row.names = FALSE)
