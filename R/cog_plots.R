@@ -121,7 +121,7 @@ sparkle <- ggplot(data = cog_sparkle, aes(x = est_lon, y = est_lat, color = year
   xlab("Longitude (°W)") + ylab("Latitude (°N)") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) +
-  facet_wrap(~species_code, scales = "free", ncol = 2)
+  facet_wrap(~species_code, ncol = 2)
 sparkle
 
 # Maps ------------------------------------------------------------------------
@@ -141,9 +141,15 @@ map <- ggplot(data = world) +
 map
 
 # Save plots ------------------------------------------------------------------
-ggsave(ts_plot, filename = here("output", "rf_cog_ts.png"), 
+# Create a directory for latest GOA survey year if it doesn't already exist
+dir <- here("output", paste0("plots ", yr_goa))
+if (!dir.exists(dir)) {
+  dir.create(dir)
+}
+
+ggsave(ts_plot, filename = here(dir, "rf_cog_ts.png"), 
        width = 200, height = 110, unit = "mm", dpi = 300)
-ggsave(sparkle, filename = here("output", "rf_cog_sparkle.png"), 
+ggsave(sparkle, filename = here(dir, "rf_cog_sparkle.png"), 
        width = 180, height = 150, unit = "mm", dpi = 300)
-ggsave(map, filename = here("output", "rf_cog_map.png"), 
+ggsave(map, filename = here(dir, "rf_cog_map.png"), 
        width = 180, height = 140, unit = "mm", dpi = 300)
