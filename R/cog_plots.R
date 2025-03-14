@@ -24,6 +24,11 @@ if (!requireNamespace("ggsidekick", quietly = TRUE)) {
 library(ggsidekick)
 theme_set(theme_sleek())
 
+# Special color palette for time series plot!
+if (!requireNamespace("nationalparkcolors", quietly = TRUE)) {
+  devtools::install_github("katiejolly/nationalparkcolors")
+}
+
 # Data import & cleaning ------------------------------------------------------
 # Either read in existing COG file, or calculate empirical cog using R script.
 # Set most recent GOA survey year
