@@ -43,17 +43,18 @@ gp_cpue <- gapindex::calc_cpue(gapdata = gp_data) |> as.data.frame()
 
 
 calc_weighted_mean <- function(x, w, lwr_p = 0.025, upr_p = 0.975) {
-  ## Count the number of non-zero weight records
-  n <- length(x = w[w > 0 & !is.na(x = w)])
+  ## Count the number of records that have a positive weight (w) 
+  ## and a metric (some metrics are missing from some hauls) 
+  n <- length(x = w[w > 0 & !is.na(x = w) & !is.na(x)])
+  w <- w / sum(w, na.rm = TRUE) # weight add up to 1
   
   ## Calculate weighted mean and standard error
   weighted_mean <- weighted.mean(x = x, 
                                  w = w, 
                                  na.rm = TRUE)
   
-  weighted_se <- sqrt(x = weighted.mean(x = (x-weighted_mean)^2, 
-                                        w = w, 
-                                        na.rm = TRUE ) / n)
+  weighted_var <- sum(w * ((x - weighted_mean)^2), na.rm = TRUE) * (n / (n - 1))
+  weighted_se <- sqrt(weighted_var / n)
   
   ## Calculate confidence interval of the weighted mean estimate
   ci <- qnorm(p = c(lwr_p, upr_p), 
