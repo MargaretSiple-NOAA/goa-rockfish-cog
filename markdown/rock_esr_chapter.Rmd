@@ -1,0 +1,39 @@
+---
+title: "Rockfish ESR draft"
+author: "Alex Downlin, Christina Conrath"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+year <- 2025
+```
+
+## Methodological changes
+The fundamental approach for calculating GOA rockfish distribution indicators has not changed in 2025; however, some aspects of the analysis and visualizations have been updated. The indicators represent design-based CPUE-weighted mean latitude, longitude, temperature and depth, weighted by the rockfish catch-per-unit-effort in units of biomass per area swept. In previous years, linear models were used to estimate trends in the weighted mean depth, temperature, and distance from Hinchenbrook Island over time. Now, these trends are reported as time series with uncertainty for visual evaluation of short- and long-term patterns, and weighted mean latitude and longitude are presented in ‘sparkle plots’ (bivariate scatterplots with error bars in both axis dimensions). 
+
+## Indicator description
+In a previous analysis of rockfish from 14 bottom trawl surveys in the Gulf of Alaska and Aleutian Islands ([@rooper_ecological_2008]), five species assemblages were defined based on similarities in their distributions along geographical position, depth, and temperature gradients. The 180 m and 275 m depth contours were major divisions between rockfish assemblages inhabiting the shelf, shelf break, and lower continental slope. Another noticeable division was between species centered in southeastern Alaska and those found in the northern Gulf of Alaska and Aleutian Islands.
+
+In this time series, the mean-weighted distributions of six rockfish taxa (four Sebastes species, rougheye-blackspotted rockfish complex, and Sebastolobus alascanus) along the three environmental gradients (position, depth and temperature) were calculated for the Gulf of Alaska and Aleutian Islands. These indices are also known as the center of gravity of population density with respect to a spatial or environmental variable. A weighted mean value for each spatial or environmental variable was computed for each survey as:
+
+$$
+x = \frac{\sum f_i x_i }{\sum f_i}
+$$
+
+where $f_i$ is the catch-per-unit-effort (CPUE, $kg km^{-2}$) of each rockfish species group in tow $i$ and $x_i$ is the value of the spatial or environmental variable at tow $i$. The weighted standard error (SE) was then computed as:
+
+$$
+SE = \frac{\sqrt{\frac{(\sum{f_i x_i ^2})-(\sum{f_i \bar x ^2})}{(\sum{f_i}) -1}}}{\sqrt n }
+$$
+
+where $n$ is the number of tows with positive catches. These indices can be used to monitor the distributions of major components of the rockfish fisheries along these spatial and environmental gradients to detect changes or trends in rockfish distribution. 
+In 2001, the Yakutat to Southeast Alaska International North Pacific Fisheries Commission (INPFC) districts were not sampled due to budgetary constraints. Thus, this year is excluded from the analysis. Dusky rockfish were identified with low confidence prior to 1999, thus all years prior were excluded in the analyses for this species. Code used to produce indicator estimates and figures is available at: https://github.com/afsc-gap-products/goa-rockfish-cog/tree/main.
+
+## Status and trends
+Several trends were observed with rockfishes along the three spatial and environmental gradients examined in the Gulf of Alaska time series through `r year` (Figures 1, 2). Northern and dusky rockfishes trended southwestward in distribution, when evaluating center of gravity trends along both axes of position at once (Figure 1). The other species displayed more variation in their position over time, or more complex changes where shorter-term shifts later reverted to the opposite direction.
+
+Most species shifted southward from 1990 to 1996 (Figure 2). Northern rockfish continued to shift slightly southward from 2003 onward, with the bulk of the change occurring between 2003 and 2005. Shortraker rockfish shifted northward from 2011 to 2013, but estimates were highly variable and uncertain. Most species shifted westward from 1990 to 2005 and-- with the exception of shortspine thornyhead and dusky rockfish-- eastward since 2021.
+
