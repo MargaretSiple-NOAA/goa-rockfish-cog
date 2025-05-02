@@ -53,7 +53,7 @@ cogs_plot <- cogs %>%
     species_code == 30576 ~ "Shortraker Rockfish",
   )) %>%
   mutate(metric = case_when(
-    metric == "BOTTOM_TEMPERATURE_C" ~ "Bottom Temp (°C)",
+    metric == "BOTTOM_TEMPERATURE_C" ~ "Bottom Temp (C)",
     metric == "DEPTH_M" ~ "Depth (m)",
     metric == "LATITUDE_DD_START" ~ "Latitude",
     metric == "LONGITUDE_DD_START" ~ "Longitude"
