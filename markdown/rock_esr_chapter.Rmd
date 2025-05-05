@@ -1,0 +1,75 @@
+---
+title: "Rockfish ESR draft"
+author: "Alexandra Dowlin, Christina Conrath"
+date: "`r Sys.Date()`"
+output: 
+  bookdown::html_document2
+bibliography: ../citations.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+year <- 2025
+```
+
+## Methodological changes
+The fundamental approach for calculating GOA rockfish distribution indicators has not changed in `r year`; however, some aspects of the analysis and visualizations have been updated. The indicators represent design-based CPUE-weighted mean latitude, longitude, temperature and depth, weighted by the rockfish catch-per-unit-effort in units of biomass per area swept. In previous years, linear models were used to estimate trends in the weighted mean depth, temperature, and distance from Hinchenbrook Island over time. Now, these trends are reported as time series with uncertainty for visual evaluation of short- and long-term patterns, and weighted mean latitude and longitude are presented in ‘sparkle plots’ (bivariate scatterplots with error bars in both axis dimensions). 
+
+## Indicator description
+In a previous analysis of rockfish from 14 bottom trawl surveys in the Gulf of Alaska and Aleutian Islands ([@rooper_ecological_2008]), five species assemblages were defined based on similarities in their distributions along geographical position, depth, and temperature gradients. The 180 m and 275 m depth contours were major divisions between rockfish assemblages inhabiting the shelf, shelf break, and lower continental slope. Another noticeable division was between species centered in southeastern Alaska and those found in the northern Gulf of Alaska and Aleutian Islands.
+
+In this time series, the mean-weighted distributions of six rockfish taxa (four Sebastes species, rougheye-blackspotted rockfish complex, and Sebastolobus alascanus) along the three environmental gradients (position, depth and temperature) were calculated for the Gulf of Alaska and Aleutian Islands. These indices are also known as the center of gravity of population density with respect to a spatial or environmental variable. A weighted mean value for each spatial or environmental variable was computed for each survey as:
+
+$$
+x = \frac{\sum f_i x_i }{\sum f_i}
+$$
+
+where $f_i$ is the catch-per-unit-effort (CPUE, $kg km^{-2}$) of each rockfish species group in tow $i$ and $x_i$ is the value of the spatial or environmental variable at tow $i$. The weighted standard deviation (SD) was then computed as:
+
+$$
+SD = \sqrt{\frac{(\sum_{i=1}^{N}{w_i(x_i - \bar{x}^*})^2}{\frac{(M-1)}{M} \sum_{i=1}^{N}w_i}} 
+$$
+
+where $N$ is the total number of tows, $M$ is the number of tows with positive catches, and $\bar x$ is the weighted mean CPUE. These indices can be used to monitor the distributions of major components of the rockfish fisheries along these spatial and environmental gradients to detect changes or trends in rockfish distribution. 
+
+In 2001, the Yakutat to Southeast Alaska International North Pacific Fisheries Commission (INPFC) districts were not sampled due to budgetary constraints. Thus, this year is excluded from the analysis. Dusky rockfish were identified with low confidence prior to 1999, thus all years prior were excluded in the analyses for this species. Code used to produce indicator estimates and figures is available at: https://github.com/afsc-gap-products/goa-rockfish-cog/tree/main.
+
+## Status and trends
+Several trends were observed with rockfishes along the three spatial and environmental gradients examined in the Gulf of Alaska time series through `r year` (Figure \@ref(fig:sparkle), Figure \@ref(fig:ts)). Northern and dusky rockfishes trended southwestward in distribution, when evaluating center of gravity trends along both axes of position at once (Figure \@ref(fig:sparkle)). The other species displayed more variation in their position over time, or more complex changes where shorter-term shifts later reverted to the opposite direction.
+
+Most species shifted southward from 1990 to 1996 (Figure \@ref(fig:ts)). Northern rockfish continued to shift slightly southward from 2003 onward, with the bulk of the change occurring between 2003 and 2005. Shortraker rockfish shifted northward from 2011 to 2013, but estimates were highly variable and uncertain. Most species shifted westward from 1990 to 2005 and--with the exception of shortspine thornyhead and dusky rockfish--eastward since 2021. From 1990 to 2019, northern rockfish moved south and west, then moved northeast again from 2020 to 2021. Dusky rockfish shifted north from 1990 to 1999, and generally moved south from 2011-2023. The rougheye-blackspotted rockfish complex moved northeast in general from 2010 onwards.
+
+The mean-weighted depth distributions of Pacific Ocean perch, northern and shortraker rockfishes became gradually shallower throughout the time series (Figure \@ref(fig:ts)). Shortspine thornyhead distribution deepened from 1990 to 2005 and has since trended slightly shallower but with great uncertainty. The other two  taxa examined remained relatively constant in their depth distribution.
+
+Deeper-dwelling species such as shortspine thornyhead, shortraker rockfish, and rougheye and blackspotted rockfishes experienced less variation in thermal conditions than the other species (Figure \@ref(fig:ts)). Shortrakers and shortspine thornyheads occupied cooler waters from 1990 to 1993 and since have trended slightly warmer. The three shallower species fluctuated widely, in proportion to their depth (shallower species experienced more variability in thermal conditions). Northern and dusky rockfishes hit a maximum temperature occupied in 2003 and a minimum in 2007. All three shallower species have trended strongly toward warmer temperatures occupied from 2007 to present.
+
+
+## Factors influencing trends
+
+In the Gulf of Alaska, most rockfish spatial distributions appear to be relatively consistent  while their thermal environment has changed to varying extents. The primary candidate driver of distribution shifts is temperature. While temperatures at greater depths along the slope tend to remain more constant than along the shelf, significant warming was observed during the mid-late 2010s. 
+
+As temperatures vary, the depth distributions have not changed substantially, indicating that distributions aren’t tracking changes in response to temperature. Rockfish spatial distributions may not respond strongly to these temperature changes due to several factors: limited movement, high generation times, long lifespans, affinity for fixed physical bottom structure, and location of predators and prey. Interestingly, the shelf species began experiencing warmer temperatures much earlier than the persistent “Pacific blob” heat wave event.
+
+The geographic shifts and more subtle changes in depth distribution could also be explained by changing productivity or density-dependent distributions. Productivity may change differently over space to cause these patterns directly, or indirectly through expansion or contraction into marginal habitats. For example, Pacific ocean perch populations have increased greatly over the time series. Finally, age composition can influence distribution in species that have ontogenetic habitat shifts (typically in the form of deepening with age).
+
+## Implications
+
+The trends in the mean-weighted distributions of rockfishes should continue to be monitored, with special attention to mechanisms that could explain the shifting depth and geographic distributions, especially as they relate to changing temperatures and fluctuating population sizes. Changes in the position of species may influence their availability to some ports more than others, so larger distribution shifts should be noted when evaluating the influence of environmental changes on local communities. Given the complex geography and bathymetry of the Gulf of Alaska, there are unlikely to be shifts that are consistent across all species, thus socioeconomic considerations in management may need to be species- or assemblage-specific.
+
+## Research priorities
+NA
+
+## Figures
+
+```{r sparkle, fig.align="left",fig.cap="Sparkle plots of rockfish center of gravity over time. Points represent the mean and lines represent 1 standard deviation from the mean latitude and longitude."}
+knitr::include_graphics("../output/plots 2023/rf_cog_sparkle.png")
+```
+
+
+```{r ts, fig.align="left",fig.cap="Time series of weighted mean spatial and environmental variables for each of the six rockfish species."}
+knitr::include_graphics("../output/plots 2023/rf_cog_ts.png")
+```
+
+
+
+## References
