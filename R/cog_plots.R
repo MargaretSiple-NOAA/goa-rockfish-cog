@@ -74,7 +74,7 @@ cogs_plot <- cogs %>%
     species_code == 30576 ~ "Shortraker Rockfish",
   )) %>%
   mutate(metric = case_when(
-    metric == "BOTTOM_TEMPERATURE_C" ~ "Bottom Temp (C)",
+    metric == "BOTTOM_TEMPERATURE_C" ~ "Bottom Temp (\u00B0C)",
     metric == "DEPTH_M" ~ "Depth (m)",
     metric == "LATITUDE_DD_START" ~ "Latitude",
     metric == "LONGITUDE_DD_START" ~ "Longitude"
@@ -139,7 +139,7 @@ sparkle <- ggplot(data = cog_sparkle, aes(x = est_lon, y = est_lat, color = year
   geom_point() +
   geom_errorbar(aes(ymin = lwr_lat, ymax = upr_lat, color = year), alpha = 0.4) +
   geom_errorbarh(aes(xmin = lwr_lon, xmax = upr_lon, color = year), alpha = 0.4) +
-  scale_color_viridis(option = "plasma", discrete = FALSE, end = 0.9) +
+  scale_color_viridis(name = "Year", option = "plasma", discrete = FALSE, end = 0.9) +
   xlab("Longitude (°W)") + ylab("Latitude (°N)") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) +
@@ -155,7 +155,7 @@ map <- ggplot(data = world) +
   geom_errorbar(data = cog_sparkle, aes(x = est_lon, ymin = lwr_lat, ymax = upr_lat, color = year), alpha = 0.4) +
   geom_errorbarh(data = cog_sparkle, aes(y = est_lat, xmin = lwr_lon, xmax = upr_lon, color = year), alpha = 0.4) +
   coord_sf(xlim = c(-162.5, -140), ylim = c(54, 60), expand = FALSE) +
-  scale_color_viridis(option = "plasma", discrete = FALSE, end = 0.9) +
+  scale_color_viridis(name = "Year", option = "plasma", discrete = FALSE, end = 0.9) +
   scale_x_continuous(breaks = c(-160, -145)) +
   scale_y_continuous(breaks = c(55, 60)) +
   labs(x = NULL, y = NULL) +
