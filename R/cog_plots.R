@@ -112,7 +112,7 @@ utm_out <- cbind.data.frame(utm_transform("est"),
                             upr = utm_transform("upr")$upr)
 
 # Special colors from naturalparkcolors::park_palette("Saguaro)
-pal <- pal <- c("#847CA3", "#E45A5A", "#F4A65E", "#80792B", "#F2D56F", "#1A1237")
+pal <- c("#847CA3", "#E45A5A", "#F4A65E", "#80792B", "#F2D56F", "#1A1237")
 
 ts_plot <- rbind.data.frame(cogs_plot %>% filter(!metric %in% c("Latitude", "Longitude")),
                             utm_out[, c(3, 1, 2, 4:7)]) %>%  # Combine original & UTM dataframes
