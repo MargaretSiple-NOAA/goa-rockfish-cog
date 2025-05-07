@@ -16,18 +16,39 @@ library(dplyr)
 library(ggplot2)
 library(viridis)
 library(here)
+library(sp)
+library(sf)
+library(scales)
+library(reshape2)
+library(rnaturalearth)
+library(rnaturalearthdata)
 
 # Set ggplot theme
-if (!requireNamespace("ggsidekick", quietly = TRUE)) {
-  devtools::install_github("seananderson/ggsidekick")
+# theme_sleek() from ggsidekick (github.com/seananderson/ggsidekick)
+theme_sleek <- function(base_size = 11, base_family = "") {
+  half_line <- base_size/2
+  theme_light(base_size = base_size, base_family = base_family) +
+    theme(
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.ticks.length = unit(half_line / 2.2, "pt"),
+      strip.background = element_rect(fill = NA, colour = NA),
+      strip.text.x = element_text(colour = "grey30"),
+      strip.text.y = element_text(colour = "grey30"),
+      axis.text = element_text(colour = "grey30"),
+      axis.title = element_text(colour = "grey30"),
+      legend.title = element_text(colour = "grey30", size = rel(0.9)),
+      panel.border = element_rect(fill = NA, colour = "grey70", linewidth = 1),
+      legend.key.size = unit(0.9, "lines"),
+      legend.text = element_text(size = rel(0.7), colour = "grey30"),
+      legend.key = element_rect(colour = NA, fill = NA),
+      legend.background = element_rect(colour = NA, fill = NA),
+      plot.title = element_text(colour = "grey30", size = rel(1)),
+      plot.subtitle = element_text(colour = "grey30", size = rel(.85))
+    )
 }
-library(ggsidekick)
-theme_set(theme_sleek())
 
-# Special color palette for time series plot!
-if (!requireNamespace("nationalparkcolors", quietly = TRUE)) {
-  devtools::install_github("katiejolly/nationalparkcolors")
-}
+theme_set(theme_sleek())
 
 # Data import & cleaning ------------------------------------------------------
 # Either read in existing COG file, or calculate empirical cog using R script.
@@ -53,7 +74,7 @@ cogs_plot <- cogs %>%
     species_code == 30576 ~ "Shortraker Rockfish",
   )) %>%
   mutate(metric = case_when(
-    metric == "BOTTOM_TEMPERATURE_C" ~ "Bottom Temp (C)",
+    metric == "BOTTOM_TEMPERATURE_C" ~ "Bottom Temp (\u00B0C)",
     metric == "DEPTH_M" ~ "Depth (m)",
     metric == "LATITUDE_DD_START" ~ "Latitude",
     metric == "LONGITUDE_DD_START" ~ "Longitude"
@@ -90,7 +111,8 @@ utm_out <- cbind.data.frame(utm_transform("est"),
                             lwr = utm_transform("lwr")$lwr,
                             upr = utm_transform("upr")$upr)
 
-pal <- nationalparkcolors::park_palette("Saguaro")  # special color palette!
+# Special colors from naturalparkcolors::park_palette("Saguaro)
+pal <- c("#847CA3", "#E45A5A", "#F4A65E", "#80792B", "#F2D56F", "#1A1237")
 
 ts_plot <- rbind.data.frame(cogs_plot %>% filter(!metric %in% c("Latitude", "Longitude")),
                             utm_out[, c(3, 1, 2, 4:7)]) %>%  # Combine original & UTM dataframes
@@ -117,7 +139,7 @@ sparkle <- ggplot(data = cog_sparkle, aes(x = est_lon, y = est_lat, color = year
   geom_point() +
   geom_errorbar(aes(ymin = lwr_lat, ymax = upr_lat, color = year), alpha = 0.4) +
   geom_errorbarh(aes(xmin = lwr_lon, xmax = upr_lon, color = year), alpha = 0.4) +
-  scale_color_viridis(option = "plasma", discrete = FALSE, end = 0.9) +
+  scale_color_viridis(name = "Year", option = "plasma", discrete = FALSE, end = 0.9) +
   xlab("Longitude (°W)") + ylab("Latitude (°N)") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) +
@@ -133,7 +155,7 @@ map <- ggplot(data = world) +
   geom_errorbar(data = cog_sparkle, aes(x = est_lon, ymin = lwr_lat, ymax = upr_lat, color = year), alpha = 0.4) +
   geom_errorbarh(data = cog_sparkle, aes(y = est_lat, xmin = lwr_lon, xmax = upr_lon, color = year), alpha = 0.4) +
   coord_sf(xlim = c(-162.5, -140), ylim = c(54, 60), expand = FALSE) +
-  scale_color_viridis(option = "plasma", discrete = FALSE, end = 0.9) +
+  scale_color_viridis(name = "Year", option = "plasma", discrete = FALSE, end = 0.9) +
   scale_x_continuous(breaks = c(-160, -145)) +
   scale_y_continuous(breaks = c(55, 60)) +
   labs(x = NULL, y = NULL) +
