@@ -139,8 +139,8 @@ sparkle <- ggplot(data = cog_sparkle, aes(x = est_lon, y = est_lat, color = year
   geom_point() +
   geom_errorbar(aes(ymin = lwr_lat, ymax = upr_lat, color = year), alpha = 0.4) +
   geom_errorbarh(aes(xmin = lwr_lon, xmax = upr_lon, color = year), alpha = 0.4) +
-  scale_color_viridis(name = "Year", option = "plasma", discrete = FALSE, end = 0.9) +
-  xlab("Longitude (°W)") + ylab("Latitude (°N)") +
+  scale_color_viridis(option = "plasma", discrete = FALSE, end = 0.9) +
+  xlab("Longitude (\u00B0W)") + ylab("Latitude (\u00B0N)") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) +
   facet_wrap(~species_code, ncol = 2)
