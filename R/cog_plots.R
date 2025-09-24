@@ -135,9 +135,7 @@ colnames(cog_lon)[3:5] <- c("est_lon", "lwr_lon", "upr_lon")
 
 cog_sparkle <- cog_lat %>% left_join(cog_lon, by = c("species_code", "year"))
 
-
 unique_years <- sort(unique(cog_sparkle$year))
-
 
 # Iteratively add years and error bars so the most recent year is on top
 sparkle <- ggplot() +
@@ -181,7 +179,7 @@ for(ii in 2:length(unique_years)) {
 sparkle <- 
   sparkle +
   scale_color_viridis(name = "Year", option = "plasma", discrete = FALSE, end = 0.9) +
-  xlab("Longitude (°W)") + ylab("Latitude (°N)") +
+  xlab("Longitude (\u00B0W)") + ylab("Latitude (\u00B0N)") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) +
   facet_wrap(~species_code, ncol = 2)
