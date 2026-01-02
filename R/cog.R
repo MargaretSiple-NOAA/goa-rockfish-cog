@@ -21,7 +21,7 @@ if (file.exists("Z:/Projects/ConnectToOracle.R")) {
 }
 
 ## TODO: Set latest GOA survey year
-yr_goa <- 2023
+yr_goa <- 2025
 
 ## Define species and species groupings
 rf_groups <- data.frame(
