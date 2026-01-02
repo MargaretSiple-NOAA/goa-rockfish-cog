@@ -61,13 +61,13 @@ NA
 
 ## Figures
 
-```{r sparkle, fig.cap="Sparkle plots of rockfish center of gravity over time. Points represent the mean and lines represent 1 standard deviation from the mean latitude and longitude."}
-knitr::include_graphics("../output/plots 2023/rf_cog_sparkle.png")
+```{r sparkle, fig.align="left",fig.cap="Sparkle plots of rockfish center of gravity over time. Points represent the mean and lines represent 1 standard deviation from the mean latitude and longitude."}
+knitr::include_graphics(paste0("../output/plots ", year, "/rf_cog_sparkle.png"))
 ```
 
 
-```{r ts, fig.cap="Time series of weighted mean spatial and environmental variables for each of the six rockfish species."}
-knitr::include_graphics("../output/plots 2023/rf_cog_ts.png")
+```{r ts, fig.align="left",fig.cap="Time series of weighted mean spatial and environmental variables for each of the six rockfish species."}
+knitr::include_graphics(paste0("../output/plots ", year, "/rf_cog_ts.png"))
 ```
 
 

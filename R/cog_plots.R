@@ -53,7 +53,7 @@ theme_set(theme_sleek())
 # Data import & cleaning ------------------------------------------------------
 # Either read in existing COG file, or calculate empirical cog using R script.
 # Set most recent GOA survey year
-yr_goa <- 2023
+yr_goa <- 2025
 
 if (file.exists(here("output", paste0("rf_cogs_", yr_goa, ".csv")))) {
   cogs <- read.csv(here("output", paste0("rf_cogs_", yr_goa, ".csv")))
@@ -135,11 +135,50 @@ colnames(cog_lon)[3:5] <- c("est_lon", "lwr_lon", "upr_lon")
 
 cog_sparkle <- cog_lat %>% left_join(cog_lon, by = c("species_code", "year"))
 
-sparkle <- ggplot(data = cog_sparkle, aes(x = est_lon, y = est_lat, color = year)) +
-  geom_point() +
-  geom_errorbar(aes(ymin = lwr_lat, ymax = upr_lat, color = year), alpha = 0.4) +
-  geom_errorbarh(aes(xmin = lwr_lon, xmax = upr_lon, color = year), alpha = 0.4) +
-  scale_color_viridis(option = "plasma", discrete = FALSE, end = 0.9) +
+unique_years <- sort(unique(cog_sparkle$year))
+
+# Iteratively add years and error bars so the most recent year is on top
+sparkle <- ggplot() +
+  geom_errorbar(
+    data = dplyr::filter(cog_sparkle, year ==  unique_years[1]), 
+                mapping = aes(x = est_lon, ymin = lwr_lat, ymax = upr_lat, color = year), 
+    alpha = 0.4,
+    width = 0) +
+  geom_errorbarh(
+    data = dplyr::filter(cog_sparkle, year ==  unique_years[1]),
+                 mapping = aes(xmin = lwr_lon, xmax = upr_lon, y = est_lat, color = year), 
+    alpha = 0.4,
+    width = 0
+    ) +
+  geom_point(
+    data = dplyr::filter(cog_sparkle, year ==  unique_years[1]), 
+             mapping = aes(x = est_lon, y = est_lat, color = year)
+    )
+
+for(ii in 2:length(unique_years)) {
+  sparkle <- 
+    sparkle +
+    geom_errorbar(
+      data = dplyr::filter(cog_sparkle, year ==  unique_years[ii]), 
+      mapping = aes(x = est_lon, ymin = lwr_lat, ymax = upr_lat, color = year), 
+      alpha = 0.4,
+      width = 0) +
+    geom_errorbarh(
+      data = dplyr::filter(cog_sparkle, year ==  unique_years[ii]),
+      mapping = aes(xmin = lwr_lon, xmax = upr_lon, y = est_lat, color = year), 
+      alpha = 0.4,
+      width = 0
+    ) +
+    geom_point(
+      data = dplyr::filter(cog_sparkle, year ==  unique_years[ii]), 
+      mapping = aes(x = est_lon, y = est_lat, color = year)
+    )
+  
+}
+
+sparkle <- 
+  sparkle +
+  scale_color_viridis(name = "Year", option = "plasma", discrete = FALSE, end = 0.9) +
   xlab("Longitude (\u00B0W)") + ylab("Latitude (\u00B0N)") +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 3)) +
   scale_y_continuous(breaks = scales::pretty_breaks(n = 3)) +
@@ -149,11 +188,50 @@ sparkle
 # Maps ------------------------------------------------------------------------
 world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
 sf::sf_use_s2(FALSE)  # turn off spherical geometry
-map <- ggplot(data = world) +
-  geom_sf() +
-  geom_point(data = cog_sparkle, aes(x = est_lon, y = est_lat, color = year), size = 1.5) +
-  geom_errorbar(data = cog_sparkle, aes(x = est_lon, ymin = lwr_lat, ymax = upr_lat, color = year), alpha = 0.4) +
-  geom_errorbarh(data = cog_sparkle, aes(y = est_lat, xmin = lwr_lon, xmax = upr_lon, color = year), alpha = 0.4) +
+
+map <- ggplot() +
+  geom_sf(data = world) +
+  geom_errorbar(
+    data = dplyr::filter(cog_sparkle, year ==  unique_years[1]), 
+    mapping = aes(x = est_lon, ymin = lwr_lat, ymax = upr_lat, color = year), 
+    alpha = 0.4,
+    width = 0) +
+  geom_errorbarh(
+    data = dplyr::filter(cog_sparkle, year ==  unique_years[1]),
+    mapping = aes(xmin = lwr_lon, xmax = upr_lon, y = est_lat, color = year), 
+    alpha = 0.4,
+    width = 0
+  ) +
+  geom_point(
+    data = dplyr::filter(cog_sparkle, year ==  unique_years[1]), 
+    mapping = aes(x = est_lon, y = est_lat, color = year),
+    size = 1.5
+  )
+  
+
+for(ii in 2:length(unique_years)) {
+  map <- 
+    map +
+    geom_errorbar(
+      data = dplyr::filter(cog_sparkle, year ==  unique_years[ii]), 
+      mapping = aes(x = est_lon, ymin = lwr_lat, ymax = upr_lat, color = year), 
+      alpha = 0.4,
+      width = 0) +
+    geom_errorbarh(
+      data = dplyr::filter(cog_sparkle, year ==  unique_years[ii]),
+      mapping = aes(xmin = lwr_lon, xmax = upr_lon, y = est_lat, color = year), 
+      alpha = 0.4,
+      width = 0
+    ) +
+    geom_point(
+      data = dplyr::filter(cog_sparkle, year ==  unique_years[ii]), 
+      mapping = aes(x = est_lon, y = est_lat, color = year),
+      size = 1.5
+    )
+  
+}
+
+map <- map + 
   coord_sf(xlim = c(-162.5, -140), ylim = c(54, 60), expand = FALSE) +
   scale_color_viridis(name = "Year", option = "plasma", discrete = FALSE, end = 0.9) +
   scale_x_continuous(breaks = c(-160, -145)) +
